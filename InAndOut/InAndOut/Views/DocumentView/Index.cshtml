@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Document Page";
+}
+
+@*<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    hello world!
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>*@
+
+
+
+<div class="text-center">
+    <h1 class="display-4">Document Viewer</h1>
+    <br />
+
+    <form action="@Url.Action("ViewDocument")" method="POST">
+          <label>Select a file to view</label>
+          <input type="file" name="fileToView" />
+          <input type="submit" class="btn btn-outline-primary" value="View & Convert PDF" />
+    </form>
+
+</div>

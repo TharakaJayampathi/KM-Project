@@ -1,0 +1,69 @@
+﻿@model IEnumerable<InAndOut.Models.ExamResult>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Exam List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-controller="ExamResult" asp-action="Create" class="btn btn-outline-primary">Create new ExamResult</a>
+        </div>
+    </div>
+    <br />
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th style="text-align:center">
+                        Student Name
+                    </th>
+                    <th style="text-align:center">
+                        Exam Name
+                    </th>
+                    <th style="text-align:center">
+                        Exam Type
+                    </th>
+                    <th style="text-align:center">
+                        Duration
+                    </th>
+                    <th style="text-align:center">
+                        Marks
+                    </th>
+                    <th style="text-align:center">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var examResult in Model)
+                {
+                    <tr>
+                        <td width="5%">@examResult.Id</td>
+                        <td style="text-align:center" width="10%">@examResult.StudentName</td>
+                        <td style="text-align:center" width="10%">@examResult.ExamName</td>
+                        <td style="text-align:center" width="10%">@examResult.ExamType</td>
+                        <td style="text-align:center" width="10%">@examResult.Duration</td>
+                        <td style="text-align:center" width="10%">@examResult.Marks</td>
+                        <td style="text-align:center" width="10%">
+                            <div class="w-100 btn-group" role="group">
+                                <a asp-controller="ExamResult" asp-action="Update" asp-route-Id="@examResult.Id" class="btn btn-outline-primary mx-1">Update</a>
+                                <a asp-controller="ExamResult" asp-action="Delete" asp-route-Id="@examResult.Id" class="btn btn-outline-danger mx-1">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Exam Results created yet</p>
+    }
+
+</div>
+

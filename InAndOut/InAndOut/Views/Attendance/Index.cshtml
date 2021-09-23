@@ -1,0 +1,65 @@
+﻿@model IEnumerable<InAndOut.Models.Attendance>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Attendance List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-controller="Attendance" asp-action="Create" class="btn btn-outline-primary">Create new Attendance</a>
+        </div>
+    </div>
+    <br />
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th style="text-align:center">
+                        Name
+                    </th>
+                    <th style="text-align:center">
+                        Attendance Date
+                    </th>
+                    <th style="text-align:center">
+                        Arrival Time
+                    </th>
+                    <th style="text-align:center">
+                        Departure Time
+                    </th>
+                    <th style="text-align:center">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var attendance in Model)
+                {
+                    <tr>
+                        <td width="5%">@attendance.Id</td>
+                        <td style="text-align:center" width="20%">@attendance.Name</td>
+                        <td style="text-align:center" width="20%">@attendance.AttendanceDate</td>
+                        <td style="text-align:center" width="20%">@attendance.ArrivalTime</td>
+                        <td style="text-align:center" width="20%">@attendance.DepartureTime</td>
+                        <td style="text-align:center" width="20%">
+                            <div class="w-100 btn-group" role="group">
+                                <a asp-controller="Attendance" asp-action="Update" asp-route-Id="@attendance.Id" class="btn btn-outline-primary mx-1">Update</a>
+                                <a asp-controller="Attendance" asp-action="Delete" asp-route-Id="@attendance.Id" class="btn btn-outline-danger mx-1">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Attendances created yet</p>
+    }
+
+</div>
+

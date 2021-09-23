@@ -1,0 +1,57 @@
+﻿@model IEnumerable<InAndOut.Models.FileUpload>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Multiple Type Document Upload (Doc/ Pdf/ Jpg/ MP4)</h1>
+
+<form method="post" enctype="multipart/form-data" asp-controller="FileUpload" asp-action="Index">
+    <p>
+        <input type="file" name="fileobj" />
+        <input type="submit" value="Upload" />
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.Imgid)*@
+                    Document Id
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.Imgname)*@
+                    Document Name
+                </th>
+                @*<th>
+                    Image
+                </th>*@
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Imgid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Imgname)
+                    </td>
+                    <!--<td>
+                        <img src="~/Files/@item.Imgname" height="80" width="120" />-->
+                        @*@Html.DisplayFor(modelItem => item.Imgpath)*@
+                    <!--</td>-->
+                    <td>
+                        @*<a asp-action="Edit" asp-route-id="@item.Imgid">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Imgid">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Imgid">Delete</a>*@
+                        @Html.ActionLink("Edit", "Edit", new { id=item.Imgid }) |
+                        @Html.ActionLink("Details", "Details", new { id=item.Imgid }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=item.Imgid })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>

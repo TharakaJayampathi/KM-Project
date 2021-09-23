@@ -1,0 +1,46 @@
+﻿@model InAndOut.Models.FileUpload
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>FileUpload</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post" asp-controller="FileUpload" enctype="multipart/form-data">
+            <p>
+                <input type="file" name="fileobj" />
+                <input type="submit" value="Upload" />
+            </p>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Imgid" class="control-label"></label>
+                <input asp-for="Imgid" class="form-control" readonly />
+                <span asp-validation-for="Imgid" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Imgid" />
+            <div class="form-group">
+                <label asp-for="Imgname" class="control-label"></label>
+                <input asp-for="Imgname" class="form-control" readonly />
+                <span asp-validation-for="Imgname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Imgpath" class="control-label"></label>
+                <input asp-for="Imgpath" class="form-control" />
+                @*<img src="~/Files/@Html.DisplayFor(model=>model.Imgname)" height="80" width="120" />*@
+                <span asp-validation-for="Imgpath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
