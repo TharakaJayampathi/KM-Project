@@ -35,7 +35,8 @@ namespace InAndOut.Controllers
         public async Task<IActionResult> Index(IFormFile fileobj, FileUpload fileUpload)
         {
             var fileext = Path.GetExtension(fileobj.FileName);
-            if (fileext == ".jpg" || fileext == ".gif" || fileext == ".docx" || fileext == ".pdf" || fileext == ".mp4")
+            if (fileext == ".jpg" || fileext == ".jpeg" || fileext == ".gif" || fileext == ".docx" || fileext == ".pptx"
+                || fileext == ".xlsx" || fileext == ".csv" || fileext == ".pdf" || fileext == ".mp4")
             {
                 var uploadfile = Path.Combine(_iweb.WebRootPath, "Files", fileobj.FileName);
                 var stream = new FileStream(uploadfile, FileMode.Create);
@@ -79,7 +80,8 @@ namespace InAndOut.Controllers
 
 
                 var fileext = Path.GetExtension(fileobj.FileName);
-                if (fileext == ".jpg" || fileext == ".gif" || fileext == ".docx" || fileext == ".pdf" || fileext == ".mp4")
+                if (fileext == ".jpg" || fileext == ".jpeg" || fileext == ".gif" || fileext == ".docx" || fileext == ".pptx"
+                || fileext == ".xlsx" || fileext == ".csv" || fileext == ".pdf" || fileext == ".mp4")
                 {
                     var uploadfile = Path.Combine(_iweb.WebRootPath, "Files", fileobj.FileName);
                     var stream = new FileStream(uploadfile, FileMode.Create);
