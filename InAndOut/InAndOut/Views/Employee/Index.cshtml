@@ -13,6 +13,20 @@
 
     @if (Model.Count() > 0)
     {
+
+        <p>
+            @using (Html.BeginForm("Index", "Employee", FormMethod.Get))
+            {
+                <b>Search</b>@Html.RadioButton("Searchby", "Name", true)<b>Name</b>
+                @Html.RadioButton("Searchby", "Designation")<b>Designation</b>
+                @Html.TextBox("Search")<input type="submit" value="Search" />
+
+            }
+        </p>
+
+
+
+
         <table class="table table-sm">
             <thead>
                 <tr>
@@ -20,10 +34,7 @@
                         Id
                     </th>
                     <th style="text-align:center">
-                        First Name
-                    </th>
-                    <th style="text-align:center">
-                        Last Name
+                        Name
                     </th>
                     <th style="text-align:center">
                         Gender
@@ -47,8 +58,7 @@
                 {
                     <tr>
                         <td width="5%">@employee.Id</td>
-                        <td style="text-align:center" width="10%">@employee.FirstName</td>
-                        <td style="text-align:center" width="10%">@employee.LastName</td>
+                        <td style="text-align:center" width="10%">@employee.Name</td>
                         <td style="text-align:center" width="10%">@employee.Gender</td>
                         <td style="text-align:center" width="10%">@employee.Designation</td>
                         <td style="text-align:center" width="10%">@employee.PhoneNo</td>

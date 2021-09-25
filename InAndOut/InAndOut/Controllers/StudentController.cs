@@ -20,11 +20,25 @@ namespace InAndOut.Controllers
         }
 
 
-        public IActionResult Index()
+        public IActionResult Index(string searchby, string search)
         {
-            IEnumerable<Student> objList = _db.Students;
+            if (searchby == "FirstName")
+            {
+                IEnumerable<Student> objList = _db.Students;
+                var model = _db.Students.Where(x => x.FirstName == search || search == null).ToList();
+                return View(model);
+            }
 
-            return View(objList);
+            else
+            {
+                IEnumerable<Student> objList = _db.Students;
+                var model = _db.Students.Where(x => x.LastName == search || search == null).ToList();
+                return View(model);
+            }
+
+            //IEnumerable<Student> objList = _db.Students;
+
+            //return View(objList);
 
         }
 

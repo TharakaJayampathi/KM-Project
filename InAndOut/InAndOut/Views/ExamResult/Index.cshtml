@@ -13,6 +13,19 @@
 
     @if (Model.Count() > 0)
     {
+
+        <p>
+            @using (Html.BeginForm("Index", "ExamResult", FormMethod.Get))
+            {
+                <b>Search</b>@Html.RadioButton("Searchby", "StudentName", true)<b>Student Name</b>
+                @Html.RadioButton("Searchby", "ExamName")<b>Exam Name</b>
+                @Html.TextBox("Search")<input type="submit" value="Search" />
+
+            }
+        </p>
+
+
+
         <table class="table table-sm">
             <thead>
                 <tr>
