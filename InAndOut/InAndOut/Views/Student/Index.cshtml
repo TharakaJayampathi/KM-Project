@@ -17,8 +17,8 @@
         <p>
             @using (Html.BeginForm("Index", "Student", FormMethod.Get))
             {
-                 <b>Search</b>@Html.RadioButton("Searchby", "FirstName",true)<b>FirstName</b>
-                 @Html.RadioButton("Searchby", "LastName")<b>LastName</b>
+                 <b>Search</b>@Html.RadioButton("Searchby", "Name",true)<b>Name</b>
+                 @Html.RadioButton("Searchby", "Section")<b>Section</b>
                  @Html.TextBox("Search")<input type="submit" value="Search" />
 
             }
@@ -32,13 +32,13 @@
                         Id
                     </th>
                     <th style="text-align:center">
-                        First Name
-                    </th>
-                    <th style="text-align:center">
-                        Last Name
+                        Name
                     </th>
                     <th style="text-align:center">
                         Gender
+                    </th>
+                    <th style="text-align:center">
+                        Section
                     </th>
                     <th style="text-align:center">
                         Birth Date
@@ -59,9 +59,9 @@
                 {
                     <tr>
                         <td width="5%">@student.Id</td>
-                        <td style="text-align:center" width="10%">@student.FirstName</td>
-                        <td style="text-align:center" width="10%">@student.LastName</td>
+                        <td style="text-align:center" width="10%">@student.Name</td>
                         <td style="text-align:center" width="10%">@student.Gender</td>
+                        <td style="text-align:center" width="10%">@student.Section</td>
                         <td style="text-align:center" width="10%">@student.BirthDate</td>
                         <td style="text-align:center" width="10%">@student.PhoneNo</td>
                         <td style="text-align:center" width="20%">@student.Address</td>
