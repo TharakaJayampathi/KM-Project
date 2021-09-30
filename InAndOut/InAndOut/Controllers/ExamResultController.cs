@@ -20,28 +20,110 @@ namespace InAndOut.Controllers
         }
 
 
-        public IActionResult Index(string searchby, string search)
+        [AcceptVerbs("GET", "POST")]
+        public ActionResult Index(string searchTxt, string SortOrder, string SortBy, int PageNumber = 1)
         {
 
-            if (searchby == "StudentName")
+            ViewBag.SortOrder = SortOrder;
+            ViewBag.SortBy = SortBy;
+
+            var model = _db.ExamResults.ToList();
+
+
+            if (searchTxt != null)
             {
-                IEnumerable<ExamResult> objList = _db.ExamResults;
-                var model = _db.ExamResults.Where(x => x.StudentName == search || search == null).ToList();
-                return View(model);
+                model = _db.ExamResults.Where(x => x.StudentName.Contains(searchTxt) || x.ExamName.Contains(searchTxt) || x.ExamType.Contains(searchTxt)).ToList();
+                ApplySorting(SortOrder, SortBy, model);
+                model = ApplyPagination(model, PageNumber);
+
             }
 
             else
             {
-                IEnumerable<ExamResult> objList = _db.ExamResults;
-                var model = _db.ExamResults.Where(x => x.ExamName == search || search == null).ToList();
-                return View(model);
+
+                ApplySorting(SortOrder, SortBy, model);
+                model = ApplyPagination(model, PageNumber);
+
             }
 
+            return View(model);
+        }
 
-            //IEnumerable<ExamResult> objList = _db.ExamResults;
+        public void ApplySorting(string SortOrder, string SortBy, List<ExamResult> model)
+        {
 
-            //return View(objList);
+            switch (SortBy)
+            {
+                case "StudentName":
+                    {
+                        switch (SortOrder)
+                        {
+                            case "Asc":
+                                {
+                                    model = model.OrderBy(x => x.StudentName).ToList();
+                                    break;
+                                }
 
+                            case "Desc":
+                                {
+                                    model = model.OrderByDescending(x => x.StudentName).ToList();
+                                    break;
+                                }
+
+                            default:
+                                {
+                                    model = model.OrderBy(x => x.StudentName).ToList();
+                                    break;
+                                }
+                        }
+
+                        break;
+                    }
+                case "ExamName":
+                    {
+                        switch (SortOrder)
+                        {
+                            case "Asc":
+                                {
+                                    model = model.OrderBy(x => x.ExamName).ToList();
+                                    break;
+                                }
+
+                            case "Desc":
+                                {
+                                    model = model.OrderByDescending(x => x.ExamName).ToList();
+                                    break;
+                                }
+
+                            default:
+                                {
+                                    model = model.OrderBy(x => x.ExamName).ToList();
+                                    break;
+                                }
+
+                        }
+
+                        break;
+                    }
+
+                default:
+                    {
+                        model = model.OrderBy(x => x.ExamName).ToList();
+                        break;
+                    }
+            }
+
+        }
+
+        public List<ExamResult> ApplyPagination(List<ExamResult> model, int PageNumber)
+        {
+
+            ViewBag.TotalPages = Math.Ceiling(model.Count() / 5.0);
+            ViewBag.PageNumber = PageNumber;
+
+            model = model.Skip((PageNumber - 1) * 5).Take(5).ToList();
+
+            return model;
         }
 
         // GET-Create

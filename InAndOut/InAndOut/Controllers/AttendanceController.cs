@@ -20,25 +20,121 @@ namespace InAndOut.Controllers
         }
 
 
-        public IActionResult Index(string searchby, string search)
+        [AcceptVerbs("GET", "POST")]
+        public ActionResult Index(string searchTxt, string SortOrder, string SortBy, int PageNumber = 1)
         {
-            if (searchby == "Name")
+
+            ViewBag.SortOrder = SortOrder;
+            ViewBag.SortBy = SortBy;
+
+            var model = _db.Attendances.ToList();
+
+
+            if (searchTxt != null)
             {
-                IEnumerable<Attendance> objList = _db.Attendances;
-                var model = _db.Attendances.Where(x => x.Name == search || search == null).ToList();
-                return View(model);
+                model = _db.Attendances.Where(x => x.Name.Contains(searchTxt) || x.ArrivalTime.Contains(searchTxt) || x.DepartureTime.Contains(searchTxt)).ToList();
+                ApplySorting(SortOrder, SortBy, model);
+                model = ApplyPagination(model, PageNumber);
+
             }
 
             else
             {
-                IEnumerable<Attendance> objList = _db.Attendances;
-                var model = _db.Attendances.Where(x => x.AttendanceDate == search || search == null).ToList();
-                return View(model);
+
+                ApplySorting(SortOrder, SortBy, model);
+                model = ApplyPagination(model, PageNumber);
+
             }
 
-            //IEnumerable<Attendance> objList = _db.Attendances;
 
-            //return View(objList);
+            return View(model);
+
+
+        }
+
+        public void ApplySorting(string SortOrder, string SortBy, List<Attendance> model)
+        {
+
+            switch (SortBy)
+            {
+                case "Name":
+                    {
+                        switch (SortOrder)
+                        {
+                            case "Asc":
+                                {
+                                    model = model.OrderBy(x => x.Name).ToList();
+                                    break;
+                                }
+
+                            case "Desc":
+                                {
+                                    model = model.OrderByDescending(x => x.Name).ToList();
+                                    break;
+                                }
+
+                            default:
+                                {
+                                    model = model.OrderBy(x => x.Name).ToList();
+                                    break;
+                                }
+
+
+
+                        }
+                        break;
+                    }
+                case "AttendanceDate":
+                    {
+                        switch (SortOrder)
+                        {
+                            case "Asc":
+                                {
+                                    model = model.OrderBy(x => x.AttendanceDate).ToList();
+                                    break;
+                                }
+
+                            case "Desc":
+                                {
+                                    model = model.OrderByDescending(x => x.AttendanceDate).ToList();
+                                    break;
+                                }
+
+                            default:
+                                {
+                                    model = model.OrderBy(x => x.AttendanceDate).ToList();
+                                    break;
+                                }
+
+
+
+                        }
+                        break;
+                    }
+
+                default:
+                    {
+                        model = model.OrderBy(x => x.Name).ToList();
+                        break;
+                    }
+
+
+            }
+
+        }
+
+        public List<Attendance> ApplyPagination(List<Attendance> model, int PageNumber)
+        {
+
+            ViewBag.TotalPages = Math.Ceiling(model.Count() / 5.0);
+            ViewBag.PageNumber = PageNumber;
+
+
+
+            model = model.Skip((PageNumber - 1) * 5).Take(5).ToList();
+
+            return model;
+
 
         }
 

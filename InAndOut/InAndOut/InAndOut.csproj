@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="bootstrap" Version="5.1.0" />
     <PackageReference Include="GroupDocs.Viewer" Version="21.9.0" />
     <PackageReference Include="Grpc.Core" Version="2.40.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.9" />

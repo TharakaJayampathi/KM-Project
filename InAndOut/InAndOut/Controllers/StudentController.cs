@@ -20,26 +20,110 @@ namespace InAndOut.Controllers
         }
 
 
-        public IActionResult Index(string searchby, string search)
+        [AcceptVerbs("GET", "POST")]
+        public ActionResult Index(string searchTxt, string SortOrder, string SortBy, int PageNumber = 1)
         {
-            if (searchby == "Name")
+
+            ViewBag.SortOrder = SortOrder;
+            ViewBag.SortBy = SortBy;
+
+            var model = _db.Students.ToList();
+
+
+            if (searchTxt != null)
             {
-                IEnumerable<Student> objList = _db.Students;
-                var model = _db.Students.Where(x => x.Name == search || search == null).ToList();
-                return View(model);
+                model = _db.Students.Where(x => x.Name.Contains(searchTxt) || x.Gender.Contains(searchTxt) || x.Address.Contains(searchTxt)).ToList();
+                ApplySorting(SortOrder, SortBy, model);
+                model = ApplyPagination(model, PageNumber);
+
             }
 
             else
             {
-                IEnumerable<Student> objList = _db.Students;
-                var model = _db.Students.Where(x => x.Section == search || search == null).ToList();
-                return View(model);
+
+                ApplySorting(SortOrder, SortBy, model);
+                model = ApplyPagination(model, PageNumber);
+
             }
 
-            //IEnumerable<Student> objList = _db.Students;
+            return View(model);
+        }
 
-            //return View(objList);
+        public void ApplySorting(string SortOrder, string SortBy, List<Student> model)
+        {
 
+            switch (SortBy)
+            {
+                case "Name":
+                    {
+                        switch (SortOrder)
+                        {
+                            case "Asc":
+                                {
+                                    model = model.OrderBy(x => x.Name).ToList();
+                                    break;
+                                }
+
+                            case "Desc":
+                                {
+                                    model = model.OrderByDescending(x => x.Name).ToList();
+                                    break;
+                                }
+
+                            default:
+                                {
+                                    model = model.OrderBy(x => x.Name).ToList();
+                                    break;
+                                }
+                        }
+
+                        break;
+                    }
+                case "Section":
+                    {
+                        switch (SortOrder)
+                        {
+                            case "Asc":
+                                {
+                                    model = model.OrderBy(x => x.Section).ToList();
+                                    break;
+                                }
+
+                            case "Desc":
+                                {
+                                    model = model.OrderByDescending(x => x.Section).ToList();
+                                    break;
+                                }
+
+                            default:
+                                {
+                                    model = model.OrderBy(x => x.Section).ToList();
+                                    break;
+                                }
+
+                        }
+
+                        break;
+                    }
+
+                default:
+                    {
+                        model = model.OrderBy(x => x.Name).ToList();
+                        break;
+                    }
+            }
+
+        }
+
+        public List<Student> ApplyPagination(List<Student> model, int PageNumber)
+        {
+
+            ViewBag.TotalPages = Math.Ceiling(model.Count() / 5.0);
+            ViewBag.PageNumber = PageNumber;
+
+            model = model.Skip((PageNumber - 1) * 5).Take(5).ToList();
+
+            return model;
         }
 
         // GET-Create

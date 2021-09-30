@@ -20,26 +20,110 @@ namespace InAndOut.Controllers
         }
 
 
-        public IActionResult Index(string searchby, string search)
+        [AcceptVerbs("GET", "POST")]
+        public ActionResult Index(string searchTxt, string SortOrder, string SortBy, int PageNumber = 1)
         {
-            if (searchby == "ExpenseName")
+
+            ViewBag.SortOrder = SortOrder;
+            ViewBag.SortBy = SortBy;
+
+            var model = _db.Finances.ToList();
+
+
+            if (searchTxt != null)
             {
-                IEnumerable<Finance> objList = _db.Finances;
-                var model = _db.Finances.Where(x => x.ExpenseName == search || search == null).ToList();
-                return View(model);
+                model = _db.Finances.Where(x => x.ExpenseName.Contains(searchTxt) || x.ExpenseType.Contains(searchTxt) || x.Amount.Contains(searchTxt)).ToList();
+                ApplySorting(SortOrder, SortBy, model);
+                model = ApplyPagination(model, PageNumber);
+
             }
 
             else
             {
-                IEnumerable<Finance> objList = _db.Finances;
-                var model = _db.Finances.Where(x => x.ExpenseType == search || search == null).ToList();
-                return View(model);
+
+                ApplySorting(SortOrder, SortBy, model);
+                model = ApplyPagination(model, PageNumber);
+
             }
 
-            //IEnumerable<Finance> objList = _db.Finances;
+            return View(model);
+        }
 
-            //return View(objList);
+        public void ApplySorting(string SortOrder, string SortBy, List<Finance> model)
+        {
 
+            switch (SortBy)
+            {
+                case "Name":
+                    {
+                        switch (SortOrder)
+                        {
+                            case "Asc":
+                                {
+                                    model = model.OrderBy(x => x.ExpenseName).ToList();
+                                    break;
+                                }
+
+                            case "Desc":
+                                {
+                                    model = model.OrderByDescending(x => x.ExpenseName).ToList();
+                                    break;
+                                }
+
+                            default:
+                                {
+                                    model = model.OrderBy(x => x.ExpenseName).ToList();
+                                    break;
+                                }
+                        }
+
+                        break;
+                    }
+                case "ExpenseType":
+                    {
+                        switch (SortOrder)
+                        {
+                            case "Asc":
+                                {
+                                    model = model.OrderBy(x => x.ExpenseType).ToList();
+                                    break;
+                                }
+
+                            case "Desc":
+                                {
+                                    model = model.OrderByDescending(x => x.ExpenseType).ToList();
+                                    break;
+                                }
+
+                            default:
+                                {
+                                    model = model.OrderBy(x => x.ExpenseType).ToList();
+                                    break;
+                                }
+
+                        }
+
+                        break;
+                    }
+
+                default:
+                    {
+                        model = model.OrderBy(x => x.ExpenseName).ToList();
+                        break;
+                    }
+            }
+
+        }
+
+        public List<Finance> ApplyPagination(List<Finance> model, int PageNumber)
+        {
+
+            ViewBag.TotalPages = Math.Ceiling(model.Count() / 5.0);
+            ViewBag.PageNumber = PageNumber;
+
+            model = model.Skip((PageNumber - 1) * 5).Take(5).ToList();
+
+            return model;
         }
 
         // GET-Create

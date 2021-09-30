@@ -20,27 +20,121 @@ namespace InAndOut.Controllers
         }
 
 
-        public IActionResult Index(string searchby, string search)
+        [AcceptVerbs("GET", "POST")]
+        public ActionResult Index(string searchTxt, string SortOrder, string SortBy, int PageNumber = 1)
         {
 
+            ViewBag.SortOrder = SortOrder;
+            ViewBag.SortBy = SortBy;
 
-            if (searchby == "Name")
+            var model = _db.Employees.ToList();
+
+
+            if (searchTxt != null)
             {
-                IEnumerable<Employee> objList = _db.Employees;
-                var model = _db.Employees.Where(x => x.Name == search || search == null).ToList();
-                return View(model);
+                model = _db.Employees.Where(x => x.Name.Contains(searchTxt) || x.Gender.Contains(searchTxt) || x.Address.Contains(searchTxt)).ToList();
+                ApplySorting(SortOrder, SortBy, model);
+                model = ApplyPagination(model, PageNumber);
+
             }
 
             else
             {
-                IEnumerable<Employee> objList = _db.Employees;
-                var model = _db.Employees.Where(x => x.Designation == search || search == null).ToList();
-                return View(model);
+
+                ApplySorting(SortOrder, SortBy, model);
+                model = ApplyPagination(model, PageNumber);
+
             }
 
-            //IEnumerable<Employee> objList = _db.Employees;
 
-            //return View(objList);
+            return View(model);
+
+
+        }
+
+        public void ApplySorting(string SortOrder, string SortBy, List<Employee> model)
+        {
+
+            switch (SortBy)
+            {
+                case "Name":
+                    {
+                        switch (SortOrder)
+                        {
+                            case "Asc":
+                                {
+                                    model = model.OrderBy(x => x.Name).ToList();
+                                    break;
+                                }
+
+                            case "Desc":
+                                {
+                                    model = model.OrderByDescending(x => x.Name).ToList();
+                                    break;
+                                }
+
+                            default:
+                                {
+                                    model = model.OrderBy(x => x.Name).ToList();
+                                    break;
+                                }
+
+
+
+                        }
+                        break;
+                    }
+                case "Designation":
+                    {
+                        switch (SortOrder)
+                        {
+                            case "Asc":
+                                {
+                                    model = model.OrderBy(x => x.Designation).ToList();
+                                    break;
+                                }
+
+                            case "Desc":
+                                {
+                                    model = model.OrderByDescending(x => x.Designation).ToList();
+                                    break;
+                                }
+
+                            default:
+                                {
+                                    model = model.OrderBy(x => x.Designation).ToList();
+                                    break;
+                                }
+
+
+
+                        }
+                        break;
+                    }
+
+                default:
+                    {
+                        model = model.OrderBy(x => x.Name).ToList();
+                        break;
+                    }
+
+
+            }
+
+        }
+
+        public List<Employee> ApplyPagination(List<Employee> model, int PageNumber)
+        {
+
+            ViewBag.TotalPages = Math.Ceiling(model.Count() / 5.0);
+            ViewBag.PageNumber = PageNumber;
+
+
+
+            model = model.Skip((PageNumber - 1) * 5).Take(5).ToList();
+
+            return model;
+
 
         }
 

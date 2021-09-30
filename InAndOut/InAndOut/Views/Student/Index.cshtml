@@ -1,85 +1,201 @@
 ﻿@model IEnumerable<InAndOut.Models.Student>
 
-<div class="container p-3">
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">Student List</h2>
-        </div>
-        <div class="col-6 text-right">
-            <a asp-controller="Student" asp-action="Create" class="btn btn-outline-primary">Create new Student</a>
-        </div>
+
+<div class="row pt-4">
+    <div class="col-6">
+        <h2 class="text-primary">Student List</h2>
     </div>
-    <br />
+    <div class="col-6 text-right">
+        <a asp-controller="Student" asp-action="Create" class="btn btn-outline-primary">Create new Student</a>
+    </div>
+</div>
+<br />
 
-    @if (Model.Count() > 0)
-    {
 
-        <p>
-            @using (Html.BeginForm("Index", "Student", FormMethod.Get))
+@if (Model.Count() > 0)
+{
+
+    <div class="container-fluid">
+        <div class="row">
+
+            @using (Html.BeginForm("Index", "Student", FormMethod.Post))
             {
-                 <b>Search</b>@Html.RadioButton("Searchby", "Name",true)<b>Name</b>
-                 @Html.RadioButton("Searchby", "Section")<b>Section</b>
-                 @Html.TextBox("Search")<input type="submit" value="Search" />
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+
+                        <label class="col-md-2 control-label">Search</label>
+
+                        <div class="col-md-12 justify-content-xl-center">
+                            <input type="text" name="searchTxt" class="form-control" placeholder="Search your text here" style="max-width: 100%" />
+                        </div>
+
+                        <div class="col-md-2 justify-content-center">
+                            <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span>Search</button>
+                        </div>
+
+                        @*@Html.Label("Search", new { @class= "col-md-2 control-label" })
+
+                            <div class="col-md-6">
+                                @Html.TextBox("searchTxt", null, new { @class= "form-control", @placeholder = "Search your text here", @style = "max-width: 100%" })
+                            </div>
+
+                            <div class="col-md-2">
+                                <button class="btn btn-primary" type="submit">Search</button>
+                            </div>*@
+
+                    </div>
+
+
+                </div>
 
             }
-        </p>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>
+                                Id
+                            </th>
+                            <th style="text-align:center">
+                                Name
+                                @*@Html.ActionLink("Name", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Name", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })*@
+                            </th>
+                            <th style="text-align:center">
+                                Gender
+                                @*@Html.ActionLink("Gender", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Gender", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })*@
+                            </th>
+                            <th style="text-align:center">
+                                Section
+                                @*@Html.ActionLink("Section", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Section", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })*@
+                            </th>
+                            <th style="text-align:center">
+                                BirthDate
+                                @*@Html.ActionLink("BirthDate", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "BirthDate", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })*@
+                            </th>
+                            <th style="text-align:center">
+                                Phone
+                                @*@Html.ActionLink("Phone", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Phone", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })*@
+                            </th>
+                            <th style="text-align:center">
+                                Address
+                                @*@Html.ActionLink("Address", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Address", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })*@
+                            </th>
+                            <th style="text-align:center">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var student in Model)
+                        {
+                            <tr>
+                                <td width="5%">@student.Id</td>
+                                <td style="text-align:center" width="10%">@student.Name</td>
+                                <td style="text-align:center" width="10%">@student.Gender</td>
+                                <td style="text-align:center" width="10%">@student.Section</td>
+                                <td style="text-align:center" width="10%">@student.BirthDate</td>
+                                <td style="text-align:center" width="10%">@student.PhoneNo</td>
+                                <td style="text-align:center" width="20%">@student.Address</td>
+                                <td style="text-align:center" width="10%">
+                                    <div class="w-100 btn-group" role="group">
+                                        <a asp-controller="Student" asp-action="Update" asp-route-Id="@student.Id" class="btn btn-outline-primary mx-1">Update</a>
+                                        <a asp-controller="Student" asp-action="Delete" asp-route-Id="@student.Id" class="btn btn-outline-danger mx-1">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
 
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th>
-                        Id
-                    </th>
-                    <th style="text-align:center">
-                        Name
-                    </th>
-                    <th style="text-align:center">
-                        Gender
-                    </th>
-                    <th style="text-align:center">
-                        Section
-                    </th>
-                    <th style="text-align:center">
-                        Birth Date
-                    </th>
-                    <th style="text-align:center">
-                        Phone
-                    </th>
-                    <th style="text-align:center">
-                        Address
-                    </th>
-                    <th style="text-align:center">
-                        Actions
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var student in Model)
-                {
-                    <tr>
-                        <td width="5%">@student.Id</td>
-                        <td style="text-align:center" width="10%">@student.Name</td>
-                        <td style="text-align:center" width="10%">@student.Gender</td>
-                        <td style="text-align:center" width="10%">@student.Section</td>
-                        <td style="text-align:center" width="10%">@student.BirthDate</td>
-                        <td style="text-align:center" width="10%">@student.PhoneNo</td>
-                        <td style="text-align:center" width="20%">@student.Address</td>
-                        <td style="text-align:center" width="10%">
-                            <div class="w-100 btn-group" role="group">
-                                <a asp-controller="Student" asp-action="Update" asp-route-Id="@student.Id" class="btn btn-outline-primary mx-1">Update</a>
-                                <a asp-controller="Student" asp-action="Delete" asp-route-Id="@student.Id" class="btn btn-outline-danger mx-1">Delete</a>
-                            </div>
-                        </td>
-                    </tr>
+                @{
+
+                    double totalPages = ViewBag.TotalPages;
+
+                        <ul class="pagination">
+                            @if (ViewBag.PageNumber == 1)
+                            {
+                                <li>
+                                    @Html.ActionLink("Previous", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber })
+                                </li>
+
+                            }
+                            else
+                            {
+
+                                <li>
+                                    @Html.ActionLink("Previous", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber - 1 })
+                                </li>
+
+                            }
+
+
+                            @for (int i = 1; i <= totalPages; i++)
+                            {
+
+                                if (i == ViewBag.PageNumber)
+                                {
+
+                                    <li class="active">
+                                        @Html.ActionLink(i.ToString(), "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = i })
+                                    </li>
+
+                                }
+
+                                else
+                                {
+
+                                    <li>
+                                        @Html.ActionLink(i.ToString(), "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = i })
+                                    </li>
+
+                                }
+
+                            }
+
+                            @if (ViewBag.PageNumber == totalPages)
+                            {
+
+                                <li>
+                                    @Html.ActionLink("Next", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber })
+                                </li>
+                            }
+
+                            else
+                            {
+
+                                <li>
+                                    @Html.ActionLink("Next", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber + 1 })
+                                </li>
+
+                            }
+
+                        </ul>
+
                 }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p>No students created yet</p>
-    }
 
-</div>
+            </div>
+
+        </div>
+
+    </div>
+
+}
+else
+{
+    <p>No such Student record created yet</p>
+}
+
+
+
+
+
+
+
+
 
