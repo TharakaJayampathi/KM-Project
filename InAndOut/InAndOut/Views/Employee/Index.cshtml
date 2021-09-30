@@ -34,7 +34,18 @@
                             <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span>Search</button>
                         </div>
 
+                        @*@Html.Label("Search", new { @class= "col-md-2 control-label" })
+
+                            <div class="col-md-6">
+                                @Html.TextBox("searchTxt", null, new { @class= "form-control", @placeholder = "Search your text here", @style = "max-width: 100%" })
+                            </div>
+
+                            <div class="col-md-2">
+                                <button class="btn btn-primary" type="submit">Search</button>
+                            </div>*@
+
                     </div>
+
 
                 </div>
 
@@ -52,6 +63,10 @@
                             </th>
                             <th style="text-align:center">
                                 Name
+                                @*@Html.ActionLink("Name", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Name", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })*@
+                            </th>
+                            <th style="text-align:center">
+                                Email
                                 @*@Html.ActionLink("Name", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Name", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })*@
                             </th>
                             <th style="text-align:center">
@@ -81,6 +96,7 @@
                             <tr>
                                 <td width="5%">@employee.Id</td>
                                 <td style="text-align:center" width="10%">@employee.Name</td>
+                                <td style="text-align:center" width="10%">@employee.Email</td>
                                 <td style="text-align:center" width="10%">@employee.Gender</td>
                                 <td style="text-align:center" width="10%">@employee.Designation</td>
                                 <td style="text-align:center" width="10%">@employee.PhoneNo</td>
@@ -101,73 +117,67 @@
 
                     double totalPages = ViewBag.TotalPages;
 
-                    @if (totalPages > 1)
-                    {
+                    <ul class="pagination">
+                        @if (ViewBag.PageNumber == 1)
+                        {
+                            <li>
+                                @Html.ActionLink("Previous", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber })
+                            </li>
 
-                        <ul class="pagination">
-                            @if (ViewBag.PageNumber == 1)
+                        }
+                        else
+                        {
+
+                            <li>
+                                @Html.ActionLink("Previous", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber - 1 })
+                            </li>
+
+                        }
+
+
+                        @for (int i = 1; i <= totalPages; i++)
+                        {
+
+                            if (i == ViewBag.PageNumber)
                             {
-                                <li>
-                                    @Html.ActionLink("Previous", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber })
+
+                                <li class="active">
+                                    @Html.ActionLink(i.ToString(), "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = i })
                                 </li>
 
-                            }
-                            else
-                            {
-
-                                <li>
-                                    @Html.ActionLink("Previous", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber - 1 })
-                                </li>
-
-                            }
-
-                            @for (int i = 1; i <= totalPages; i++)
-                            {
-
-                                if (i == ViewBag.PageNumber)
-                                {
-
-                                    <li class="active">
-                                        @Html.ActionLink(i.ToString(), "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = i })
-                                    </li>
-
-                                }
-
-                                else
-                                {
-
-                                    <li>
-                                        @Html.ActionLink(i.ToString(), "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = i })
-                                    </li>
-
-                                }
-
-
-                            }
-
-                            @if (ViewBag.PageNumber == totalPages)
-                            {
-
-                                <li>
-                                    @Html.ActionLink("Next", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber })
-                                </li>
                             }
 
                             else
                             {
 
                                 <li>
-                                    @Html.ActionLink("Next", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber + 1 })
+                                    @Html.ActionLink(i.ToString(), "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = i })
                                 </li>
 
                             }
 
-                        </ul>
+                        }
 
-                    }
+                        @if (ViewBag.PageNumber == totalPages)
+                        {
+
+                            <li>
+                                @Html.ActionLink("Next", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber })
+                            </li>
+                        }
+
+                        else
+                        {
+
+                            <li>
+                                @Html.ActionLink("Next", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber + 1 })
+                            </li>
+
+                        }
+
+                    </ul>
 
                 }
-
 
             </div>
 
@@ -180,6 +190,8 @@ else
 {
     <p>No such Employee record created yet</p>
 }
+
+
 
 
 

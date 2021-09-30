@@ -15,6 +15,9 @@
                         <label asp-for="Name"></label>
                     </div>
                     <div class="col-2">
+                        <label asp-for="Email"></label>
+                    </div>
+                    <div class="col-2">
                         <label asp-for="Gender"></label>
                     </div>
                     <div class="col-2">
@@ -31,6 +34,10 @@
                     <div class="col-2">
                         <input asp-for="Name" class="form-control" />
                         <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="col-2">
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="col-2">
                         <input asp-for="Gender" class="form-control" />
