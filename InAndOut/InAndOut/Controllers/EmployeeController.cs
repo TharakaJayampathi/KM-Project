@@ -126,12 +126,12 @@ namespace InAndOut.Controllers
         public List<Employee> ApplyPagination(List<Employee> model, int PageNumber)
         {
 
-            ViewBag.TotalPages = Math.Ceiling(model.Count() / 5.0);
+            ViewBag.TotalPages = Math.Ceiling(model.Count() / 8.0);
             ViewBag.PageNumber = PageNumber;
 
 
 
-            model = model.Skip((PageNumber - 1) * 5).Take(5).ToList();
+            model = model.Skip((PageNumber - 1) * 8).Take(8).ToList();
 
             return model;
 
