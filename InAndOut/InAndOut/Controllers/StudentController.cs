@@ -79,25 +79,25 @@ namespace InAndOut.Controllers
 
                         break;
                     }
-                case "Section":
+                case "Gender":
                     {
                         switch (SortOrder)
                         {
                             case "Asc":
                                 {
-                                    model = model.OrderBy(x => x.Section).ToList();
+                                    model = model.OrderBy(x => x.Gender).ToList();
                                     break;
                                 }
 
                             case "Desc":
                                 {
-                                    model = model.OrderByDescending(x => x.Section).ToList();
+                                    model = model.OrderByDescending(x => x.Gender).ToList();
                                     break;
                                 }
 
                             default:
                                 {
-                                    model = model.OrderBy(x => x.Section).ToList();
+                                    model = model.OrderBy(x => x.Gender).ToList();
                                     break;
                                 }
 

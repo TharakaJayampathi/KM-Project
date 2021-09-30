@@ -79,10 +79,6 @@
                                 @*@Html.ActionLink("Gender", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Gender", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })*@
                             </th>
                             <th style="text-align:center">
-                                Section
-                                @*@Html.ActionLink("Section", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Section", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })*@
-                            </th>
-                            <th style="text-align:center">
                                 BirthDate
                                 @*@Html.ActionLink("BirthDate", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "BirthDate", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })*@
                             </th>
@@ -106,7 +102,6 @@
                                 <td width="5%">@student.Id</td>
                                 <td style="text-align:center" width="10%">@student.Name</td>
                                 <td style="text-align:center" width="10%">@student.Gender</td>
-                                <td style="text-align:center" width="10%">@student.Section</td>
                                 <td style="text-align:center" width="10%">@student.BirthDate</td>
                                 <td style="text-align:center" width="10%">@student.PhoneNo</td>
                                 <td style="text-align:center" width="20%">@student.Address</td>
