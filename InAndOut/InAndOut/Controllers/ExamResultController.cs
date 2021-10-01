@@ -32,7 +32,8 @@ namespace InAndOut.Controllers
 
             if (searchTxt != null)
             {
-                model = _db.ExamResults.Where(x => x.StudentName.Contains(searchTxt) || x.ExamName.Contains(searchTxt) || x.ExamType.Contains(searchTxt)).ToList();
+                model = _db.ExamResults.Where(x => x.StudentName.Contains(searchTxt)).ToList();
+                //model = _db.ExamResults.Where(x => x.StudentName.Contains(searchTxt) || x.ExamName.Contains(searchTxt) || x.ExamType.Contains(searchTxt)).ToList();
                 ApplySorting(SortOrder, SortBy, model);
                 model = ApplyPagination(model, PageNumber);
 

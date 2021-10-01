@@ -32,7 +32,8 @@ namespace InAndOut.Controllers
 
             if (searchTxt != null)
             {
-                model = _db.Attendances.Where(x => x.Name.Contains(searchTxt) || x.ArrivalTime.Contains(searchTxt) || x.DepartureTime.Contains(searchTxt)).ToList();
+                model = _db.Attendances.Where(x => x.Name.Contains(searchTxt)).ToList();
+                //model = _db.Attendances.Where(x => x.Name.Contains(searchTxt) || x.ArrivalTime.Contains(searchTxt) || x.DepartureTime.Contains(searchTxt)).ToList();
                 ApplySorting(SortOrder, SortBy, model);
                 model = ApplyPagination(model, PageNumber);
 

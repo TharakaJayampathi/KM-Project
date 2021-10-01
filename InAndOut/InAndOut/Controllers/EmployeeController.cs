@@ -32,7 +32,8 @@ namespace InAndOut.Controllers
 
             if (searchTxt != null)
             {
-                model = _db.Employees.Where(x => x.Name.Contains(searchTxt) || x.Gender.Contains(searchTxt) || x.Address.Contains(searchTxt)).ToList();
+                model = _db.Employees.Where(x => x.Name.Contains(searchTxt)).ToList();
+                //model = _db.Employees.Where(x => x.Name.Contains(searchTxt) || x.Gender.Contains(searchTxt) || x.Address.Contains(searchTxt)).ToList();
                 ApplySorting(SortOrder, SortBy, model);
                 model = ApplyPagination(model, PageNumber);
 

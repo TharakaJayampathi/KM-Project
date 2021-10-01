@@ -32,7 +32,8 @@ namespace InAndOut.Controllers
 
             if (searchTxt != null)
             {
-                model = _db.Finances.Where(x => x.ExpenseName.Contains(searchTxt) || x.ExpenseType.Contains(searchTxt) || x.Amount.Contains(searchTxt)).ToList();
+                model = _db.Finances.Where(x => x.ExpenseName.Contains(searchTxt)).ToList();
+                //model = _db.Finances.Where(x => x.ExpenseName.Contains(searchTxt) || x.ExpenseType.Contains(searchTxt) || x.Amount.Contains(searchTxt)).ToList();
                 ApplySorting(SortOrder, SortBy, model);
                 model = ApplyPagination(model, PageNumber);
 
